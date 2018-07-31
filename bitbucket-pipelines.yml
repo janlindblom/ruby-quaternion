@@ -14,20 +14,21 @@ pipelines:
         script:
           - bundle install
           - bundle exec rake spec
-    - step:
-        name: Rubocop
-        caches:
-          - bundler
-        script:
-          - bundle install
-          - bundle exec rake rubocop
-    - step:
-        name: YARD Documentation
-        caches:
-          - bundler
-        script:
-          - bundle install
-          - bundle exec rake yard
+    - parallel:
+      - step:
+          name: Rubocop
+          caches:
+            - bundler
+          script:
+            - bundle install
+            - bundle exec rake rubocop
+      - step:
+          name: YARD Documentation
+          caches:
+            - bundler
+          script:
+            - bundle install
+            - bundle exec rake yard
     - step:
         name: Build Artifact
         caches:
