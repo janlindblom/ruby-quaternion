@@ -33,6 +33,31 @@ class Quaternion
     r
   end
 
+  def *(other)
+    r = Quaternion.new
+    if other.is_a? Quaternion
+      a1 = self.a
+      a2 = other.a
+      b1 = self.b
+      b2 = other.b
+      c1 = self.c
+      c2 = other.c
+      d1 = self.d
+      d2 = other.d
+      r.a = (a1 * a2 + b1 * b2 + c1 * c2 + d1 * d2)
+      r.b = (a1 * b2 + b1 * a2 + c1 * d2 -d1 * c2)
+      r.c = (a1 * c2 - b1 * d2 + c1 * a2 + d1 * b2)
+      r.d = (a1 * d2 + b1 * c2 - c1 * b2 + d1 * a2)
+    elsif other.is_a? Numeric
+      r.a = other * a
+      r.b = other * b
+      r.c = other * c
+      r.d = other * d
+    end
+
+    r
+  end
+
   def zero?
     return true if a == 0 && b == 0 && c == 0 && d == 0
     false
