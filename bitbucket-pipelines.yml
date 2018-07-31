@@ -8,33 +8,14 @@ image: ruby:2.4.0
 pipelines:
   default:
     - step:
-        name: RSpec Tests
+        name: Test and Build
         caches:
           - bundler
         script:
-          - bundle install
+          - bundle install --path ./vendor
           - bundle exec rake spec
-    - parallel:
-      - step:
-          name: Rubocop
-          caches:
-            - bundler
-          script:
-            - bundle install
-            - bundle exec rake rubocop
-      - step:
-          name: YARD Documentation
-          caches:
-            - bundler
-          script:
-            - bundle install
-            - bundle exec rake yard
-    - step:
-        name: Build Artifact
-        caches:
-          - bundler
-        script:
-          - bundle install
+          - bundle exec rake rubocop
+          - bundle exec rake yard
           - bundle exec rake build
 
 definitions:
