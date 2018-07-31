@@ -12,6 +12,10 @@ pipelines:
           - bundler
         script: # Modify the commands below to build your repository.
           - bundle install
+          - bundle exec rake spec
+          - bundle exec rake rubocop
+          - bundle exec rake yard
+          - bundle exec rake build
 
 definitions:
   caches:
