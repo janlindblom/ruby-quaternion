@@ -8,13 +8,32 @@ image: ruby:2.4.0
 pipelines:
   default:
     - step:
+        name: RSpec Tests
         caches:
           - bundler
-        script: # Modify the commands below to build your repository.
+        script:
           - bundle install
           - bundle exec rake spec
+    - step:
+        name: Rubocop
+        caches:
+          - bundler
+        script:
+          - bundle install
           - bundle exec rake rubocop
+    - step:
+        name: YARD Documentation
+        caches:
+          - bundler
+        script:
+          - bundle install
           - bundle exec rake yard
+    - step:
+        name: Build Artifact
+        caches:
+          - bundler
+        script:
+          - bundle install
           - bundle exec rake build
 
 definitions:
