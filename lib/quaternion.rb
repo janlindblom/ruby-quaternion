@@ -3,11 +3,11 @@ class Quaternion
 
   # @return [Numeric] real component a
   attr_accessor :a
-  # @return [Numeric] imaginary component b
+  # @return [Numeric] scalar component b
   attr_accessor :b
-  # @return [Numeric] imaginary component c
+  # @return [Numeric] scalar component c
   attr_accessor :c
-  # @return [Numeric] imaginary component d
+  # @return [Numeric] scalar component d
   attr_accessor :d
 
   def initialize(a = nil, b = nil, c = nil, d = nil)
@@ -26,14 +26,15 @@ class Quaternion
   # @return [String] string representing _obj_.
   def to_s
     return '0' if zero?
-    "(#{format_number @a, false} + #{format_number @b}i + #{format_number @c}j + #{format_number @d}k)"
+
+    "#{format_number @a, false} + #{format_number @b}i + #{format_number @c}j + #{format_number @d}k"
   end
 
   # Returns a string containing a human-readable representation of _obj_.
   #
   # @return [String] a string containing a human-readable representation of _obj_.
   def inspect
-    to_s
+    "(#{self})"
   end
 
   # Returns the conjugate of _obj_ *q* which is the quaternion
@@ -53,51 +54,28 @@ class Quaternion
   end
 
   def +(other)
-    r = Quaternion.new
-    r.a = (@a + other.a)
-    r.b = (@b + other.b)
-    r.c = (@c + other.c)
-    r.d = (@d + other.d)
-    r
+    return plus_minus(other, :plus) if other.is_a? Quaternion
+    return plus_minus(Quaternion.new(other), :plus) if other.is_a? Numeric
+  end
+
+  def -(other)
+    return plus_minus(other, :minus) if other.is_a? Quaternion
+    return plus_minus(Quaternion.new(other), :minus) if other.is_a? Numeric
   end
 
   def *(other)
-    r = Quaternion.new
-    if other.is_a? Quaternion
-      a1 = @a
-      a2 = other.a
-      b1 = @b
-      b2 = other.b
-      c1 = @c
-      c2 = other.c
-      d1 = @d
-      d2 = other.d
-      r.a = (a1 * a2 - b1 * b2 - c1 * c2 - d1 * d2)
-      r.b = (a1 * b2 + b1 * a2 + c1 * d2 - d1 * c2)
-      r.c = (a1 * c2 - b1 * d2 + c1 * a2 + d1 * b2)
-      r.d = (a1 * d2 + b1 * c2 - c1 * b2 + d1 * a2)
-    elsif other.is_a? Numeric
-      r.a = other * @a
-      r.b = other * @b
-      r.c = other * @c
-      r.d = other * @d
-    end
-
-    r
+    return hamilton_product(other) if other.is_a? Quaternion
+    return scalar_product(other) if other.is_a? Numeric
   end
 
   def /(other)
-    r = Quaternion.new
-    if other.real?
-      r = self * (1 / other.a)
-    elsif other.is_a? Numeric
-      r = self * (1 / other)
-    end
-    r
+    return self * (1 / other.a) if other.real?
+    return self * (1 / other) if other.is_a? Numeric
   end
 
   def eql?(other)
     return true if @a == other.a && @b == other.b && @c == other.c && @d == other.d
+
     false
   end
 
@@ -111,21 +89,25 @@ class Quaternion
 
   def identity_element?
     return true if @a == 1 && @b == 0 && @c == 0 && @d == 0
+
     false
   end
 
   def zero?
     return true if @a == 0 && @b == 0 && @c == 0 && @d == 0
+
     false
   end
 
   def real?
     return true if @b == 0 && @c == 0 && @d == 0
+
     false
   end
 
   def imaginary?
     return true if @a == 0 && (@b != 0 || @c != 0 || @d != 0)
+
     false
   end
 
@@ -135,8 +117,37 @@ class Quaternion
 
   private
 
+  def plus_minus(other, sign)
+    if sign == :plus
+      Quaternion.new((@a + other.a),
+                     (@b + other.b),
+                     (@c + other.c),
+                     (@d + other.d))
+    elsif sign == :minus
+      Quaternion.new((@a + other.a),
+                     (@b + other.b),
+                     (@c + other.c),
+                     (@d + other.d))
+    end
+  end
+
+  def scalar_product(other)
+    Quaternion.new(other * @a,
+                   other * @b,
+                   other * @c,
+                   other * @d)
+  end
+
+  def hamilton_product(other)
+    Quaternion.new((@a * other.a - @b * other.b - @c * other.c - @d * other.d),
+                   (@a * other.b + @b * other.a + @c * other.d - @d * other.c),
+                   (@a * other.c - @b * other.d + @c * other.a + @d * other.b),
+                   (@a * other.d + @b * other.c - @c * other.b + @d * other.a))
+  end
+
   def format_number(number, omit = true)
     return '' if omit && (number == 1 || number == 1.0)
+
     number.to_s
   end
 end
