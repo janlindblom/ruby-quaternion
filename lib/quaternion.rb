@@ -1,4 +1,7 @@
+# Ruby representation of quaternions.
+# @author Jan Lindblom <janlindblom@fastmail.fm>
 class Quaternion
+  # Current version of the Quaternion gem
   VERSION = '0.0.1'.freeze
 
   # @return [Numeric] real component a
@@ -10,6 +13,7 @@ class Quaternion
   # @return [Numeric] scalar component d
   attr_accessor :d
 
+  # Create a new Quaternion
   def initialize(a = nil, b = nil, c = nil, d = nil)
     @a = 0
     @b = 0
@@ -27,7 +31,7 @@ class Quaternion
   def to_s
     return '0' if zero?
 
-    "#{format_number @a, false} + #{format_number @b}i + #{format_number @c}j + #{format_number @d}k"
+    "#{format_number @a, false}#{sign_as_per @b}#{format_number @b.abs}i#{sign_as_per @c}#{format_number @c.abs}j#{sign_as_per @d}#{format_number @d.abs}k"
   end
 
   # Returns a string containing a human-readable representation of _obj_.
@@ -143,6 +147,12 @@ class Quaternion
                    (@a * other.b + @b * other.a + @c * other.d - @d * other.c),
                    (@a * other.c - @b * other.d + @c * other.a + @d * other.b),
                    (@a * other.d + @b * other.c - @c * other.b + @d * other.a))
+  end
+
+  def sign_as_per(number)
+    return '-' if number < 0
+
+    '+'
   end
 
   def format_number(number, omit = true)
