@@ -1,11 +1,58 @@
-# This is a sample build configuration for Ruby.
-# Check our guides at https://confluence.atlassian.com/x/8r-5Mw for more examples.
-# Only use spaces to indent your .yml configuration.
-# -----
-# You can specify a custom docker image from Docker Hub as your build environment.
 image: ruby:2.4.0
 
 pipelines:
+  branches:
+    master:
+      - step:
+          name: Test
+          caches:
+            - bundler
+          script:
+            - bundle install --path ./vendor
+            - bundle exec rake spec
+      - step:
+          name: Build
+          deployment: production
+          caches:
+            - bundler
+          script:
+            - bundle install --path ./vendor
+            - bundle exec rake build
+      - step:
+          name: Check style and docs
+          caches:
+            - bundler
+          script:
+            - bundle install --path ./vendor
+            - bundle exec rake rubocop
+            - bundle exec rake yard
+    develop:
+      - step:
+          name: Test
+          deployment: test
+          caches:
+            - bundler
+          script:
+            - bundle install --path ./vendor
+            - bundle exec rake spec
+      - step:
+          name: Check style and docs
+          deployment: staging
+          caches:
+            - bundler
+          script:
+            - bundle exec rake rubocop
+            - bundle exec rake yard
+    feature/*:
+      - step:
+          name: Test and check style
+          caches:
+            - bundler
+          script:
+            - bundle install --path ./vendor
+            - bundle exec rake spec
+            - bundle exec rake rubocop
+
   default:
     - step:
         name: Test and Build
@@ -14,9 +61,15 @@ pipelines:
         script:
           - bundle install --path ./vendor
           - bundle exec rake spec
+          - bundle exec rake build
+    - step:
+        name: Check style and docs
+        caches:
+          - bundler
+        script:
+          - bundle install --path ./vendor
           - bundle exec rake rubocop
           - bundle exec rake yard
-          - bundle exec rake build
 
 definitions:
   caches:
