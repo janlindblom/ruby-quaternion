@@ -41,6 +41,7 @@ pipelines:
           caches:
             - bundler
           script:
+            - bundle install --path ./vendor
             - bundle exec rake rubocop
             - bundle exec rake yard
     feature/*:
