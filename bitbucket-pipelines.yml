@@ -37,7 +37,6 @@ pipelines:
             - bundle exec rake spec
       - step:
           name: Check style and docs
-          deployment: staging
           caches:
             - bundler
           script:
@@ -47,12 +46,21 @@ pipelines:
     feature/*:
       - step:
           name: Test and check style
+          deployment: staging
           caches:
             - bundler
           script:
             - bundle install --path ./vendor
             - bundle exec rake spec
             - bundle exec rake rubocop
+    release/*:
+      - step:
+          name: Test and build gem
+          caches:
+            - bundler
+          script:
+            - bundle install --path ./vendor
+            - bundle exec rake
 
   default:
     - step:
