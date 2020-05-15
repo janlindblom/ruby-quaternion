@@ -41,7 +41,7 @@ class Quaternion
   end
 
   # Returns the conjugate of _obj_ *q* which is the quaternion
-  # q∗ = *a* − *b*_i_ − *c*_j_ − *d*_k_.
+  # q* = *a* - *b*_i_ - *c*_j_ - *d*_k_.
   #
   # @return [Quaternion] the conjugate of _obj_.
   def conjugate
@@ -91,25 +91,25 @@ class Quaternion
   end
 
   def identity_element?
-    return true if @a == 1 && @b == 0 && @c == 0 && @d == 0
+    return true if @a == 1 && @b.zero? && @c.zero? && @d.zero?
 
     false
   end
 
   def zero?
-    return true if @a == 0 && @b == 0 && @c == 0 && @d == 0
+    return true if @a.zero? && @b.zero? && @c.zero? && @d.zero?
 
     false
   end
 
   def real?
-    return true if @b == 0 && @c == 0 && @d == 0
+    return true if @b.zero? && @c.zero? && @d.zero?
 
     false
   end
 
   def imaginary?
-    return true if @a == 0 && (@b != 0 || @c != 0 || @d != 0)
+    return true if @a.zero? && (@b != 0 || @c != 0 || @d != 0)
 
     false
   end
@@ -122,15 +122,11 @@ class Quaternion
 
   def plus_minus(other, sign)
     if sign == :plus
-      Quaternion.new((@a + other.a),
-                     (@b + other.b),
-                     (@c + other.c),
-                     (@d + other.d))
+      Quaternion.new((@a + other.a), (@b + other.b),
+                     (@c + other.c), (@d + other.d))
     elsif sign == :minus
-      Quaternion.new((@a + other.a),
-                     (@b + other.b),
-                     (@c + other.c),
-                     (@d + other.d))
+      Quaternion.new((@a + other.a), (@b + other.b),
+                     (@c + other.c), (@d + other.d))
     end
   end
 
@@ -155,7 +151,7 @@ class Quaternion
   end
 
   def format_number(number, omit = true)
-    return '' if omit && (number == 1 || number == 1.0)
+    return '' if omit && [1, 1.0].include?(number)
 
     number.to_s
   end
