@@ -19,4 +19,4 @@ The format is based on [Keep a Changelog][Keep a Changelog] and this project adh
 [Semantic Versioning]: https://semver.org/
 
 [Unreleased]: https://bitbucket.org/janlindblom/ruby-quaternion/src/master/
-[0.1.0]: https://github.com/janlindblom/ruby-quaternion/src/v0.1.0
+[0.1.0]: https://bitbucket.org/janlindblom/ruby-quaternion/commits/tag/v0.1.0
