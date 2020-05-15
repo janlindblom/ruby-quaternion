@@ -1,6 +1,6 @@
 # Quaternion
 
-TODO: Describe the gem.
+The Quaternion gem adds Quaternions to your Ruby project.
 
 ## Installation
 
@@ -20,7 +20,15 @@ Or install it yourself as:
 
 ## Usage
 
-TODO: Write usage instructions here
+```
+# Zero Quaternion
+q_zero = Quaternion.zero
+
+q_a = Quaternion.new(1,2,3,4)
+a_b = Quaternion.new(5,6,7,8)
+
+q_sum = q_a + q_b
+```
 
 ## Development
 

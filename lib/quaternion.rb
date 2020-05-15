@@ -5,7 +5,7 @@
 # @author Jan Lindblom <janlindblom@fastmail.fm>
 class Quaternion
   # Current version of the Quaternion gem
-  VERSION = '0.0.1'
+  VERSION = '0.1.0'
 
   # @return [Numeric] real component a
   attr_accessor :a
