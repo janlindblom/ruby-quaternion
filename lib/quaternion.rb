@@ -6,19 +6,18 @@ class Quaternion
 
   # @return [Numeric] real component a
   attr_accessor :a
+
   # @return [Numeric] scalar component b
   attr_accessor :b
+
   # @return [Numeric] scalar component c
   attr_accessor :c
+
   # @return [Numeric] scalar component d
   attr_accessor :d
 
   # Create a new Quaternion
-  def initialize(a = nil, b = nil, c = nil, d = nil)
-    @a = 0
-    @b = 0
-    @c = 0
-    @d = 0
+  def initialize(a = 0, b = 0, c = 0, d = 0)
     @a = a unless a.nil?
     @b = b unless b.nil?
     @c = c unless c.nil?
