@@ -9,14 +9,14 @@ Gem::Specification.new do |spec|
   spec.authors       = ["Jan Lindblom"]
   spec.email         = ["janlindblom@fastmail.fm"]
 
-  spec.summary       = %q{Number system extending complex numbers.}
-  spec.homepage      = "https://bitbucket.org/janlindblom/ruby-quaternion"
+  spec.summary       = %q{Quaternions in Ruby.}
+  spec.homepage      = "https://github.com/janlindblom/ruby-quaternion"
   spec.license       = "MIT"
   spec.required_ruby_version = Gem::Requirement.new('>= 2.3.0')
 
   spec.metadata['homepage_uri'] = spec.homepage
-  spec.metadata['source_code_uri'] = 'https://bitbucket.org/robotika-ax/ruby-quaternion/src/'
-  spec.metadata['changelog_uri'] = 'https://bitbucket.org/robotika-ax/ruby-quaternion/src/master/CHANGELOG.md'
+  spec.metadata['source_code_uri'] = 'https://github.com/janlindblom/ruby-quaternion/tree/master'
+  spec.metadata['changelog_uri'] = 'https://github.com/janlindblom/ruby-quaternion/blob/master/CHANGELOG.md'
 
   spec.files         = Dir.chdir(File.expand_path('..', __FILE__)) do
     `git ls-files -z`.split("\x0").reject { |f| f.match(%r{^(test|spec|features)/}) }

@@ -62,7 +62,7 @@ class Quaternion
   end
 
   #
-  # Returns the norm of this Quaternion
+  # Returns the norm of this Quaternion.
   #
   # @return [Numeric] norm of this Quaternion.
   #
@@ -192,8 +192,8 @@ class Quaternion
       Quaternion.new((@a + other.a), (@b + other.b),
                      (@c + other.c), (@d + other.d))
     elsif sign == :minus
-      Quaternion.new((@a + other.a), (@b + other.b),
-                     (@c + other.c), (@d + other.d))
+      Quaternion.new((@a - other.a), (@b - other.b),
+                     (@c - other.c), (@d - other.d))
     end
   end
 
