@@ -67,7 +67,7 @@ class Quaternion
   # @return [Numeric] norm of this Quaternion.
   #
   def norm
-    Math.sqrt(@a**2 + @b**2 + @c**2 + @d**2)
+    Math.sqrt((@a**2) + (@b**2) + (@c**2) + (@d**2))
   end
 
   #
@@ -188,10 +188,11 @@ class Quaternion
   private
 
   def plus_minus(other, sign)
-    if sign == :plus
+    case sign
+    when :plus
       Quaternion.new((@a + other.a), (@b + other.b),
                      (@c + other.c), (@d + other.d))
-    elsif sign == :minus
+    when :minus
       Quaternion.new((@a - other.a), (@b - other.b),
                      (@c - other.c), (@d - other.d))
     end
@@ -205,10 +206,12 @@ class Quaternion
   end
 
   def hamilton_product(other)
-    Quaternion.new((@a * other.a - @b * other.b - @c * other.c - @d * other.d),
-                   (@a * other.b + @b * other.a + @c * other.d - @d * other.c),
-                   (@a * other.c - @b * other.d + @c * other.a + @d * other.b),
-                   (@a * other.d + @b * other.c - @c * other.b + @d * other.a))
+    Quaternion.new(
+      ((@a * other.a) - (@b * other.b) - (@c * other.c) - (@d * other.d)),
+      ((@a * other.b) + (@b * other.a) + (@c * other.d) - (@d * other.c)),
+      ((@a * other.c) - (@b * other.d) + (@c * other.a) + (@d * other.b)),
+      ((@a * other.d) + (@b * other.c) - (@c * other.b) + (@d * other.a))
+    )
   end
 
   def sign_as_per(number)
@@ -217,7 +220,7 @@ class Quaternion
     '+'
   end
 
-  def format_number(number, omit = true)
+  def format_number(number, omit: true)
     return '' if omit && [1, 1.0].include?(number)
 
     number.to_s
